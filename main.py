@@ -1,16 +1,27 @@
-# This is a sample Python script.
+from cefpython3 import cefpython as cef
+import sys
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+class Browser:
+    def __init__(self, start_url=None):
+        self.start_url = start_url
 
+    def run(self):
+        cef.Initialize(settings={"windowless_rendering_enabled": False})
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+        html_path = os.path.join(os.path.dirname(__file__), "index.html")
+        self.start_url = "file:///" + html_path.replace("\\", "/")
 
+        self.createBrowser()
+        cef.MessageLoop()
+        cef.Shutdown()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    def createBrowser(self):
+        cef.CreateBrowserSync(
+            url=self.start_url,
+            window_title="MyBrowser"
+        )
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    app = Browser()
+    app.run()
