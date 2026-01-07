@@ -6,7 +6,9 @@ class Browser:
         self.start_url = start_url
 
     def run(self):
-        cef.Initialize(settings={"windowless_rendering_enabled": False})
+        cef.Initialize(settings={"windowless_rendering_enabled": False, "persist_session_cookies": True,  "context_menu": {
+        "enabled": True
+    },})
 
         if not self.start_url:
             html_path = os.path.join(os.path.dirname(__file__), "index.html")
